@@ -1,7 +1,7 @@
 # DL_Framework
 Self-build Deep learnning Framework for stock market  
 Environment: python 3.9  
-requirements packages are listed at requirements.md  
+requirements packages are listed at requirements.txt  
 
 ## 训练资料的获取(data_gen)：  
 ### 一、总操作台：var_lib.py  
