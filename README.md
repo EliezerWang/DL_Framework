@@ -3,8 +3,8 @@ Self-build Deep learnning Framework for stock market
 Environment: python 3.9  
 requirements packages are listed at requirements.md  
 
-训练资料的获取(data_gen)：  
-一、总操作台：var_lib.py  
+## 训练资料的获取(data_gen)：  
+### 一、总操作台：var_lib.py  
 (1)startdate: 数据取得开始的日期 例子:’20180618’。 end_date:如果是None则设当日的前一天为结束日期, 可以指定结束日期 例子:’20200618’。  
 (2)code:选择需要的股票池 例子:[‘000300.SH’]  (记得带上[]，进入格式需为list)  
 (3)myclient选择数据库 例子：pymongo.MongoClient("mongodb://192.168.17.19:27017/"), myclient.admin.authenticate 选择授权码 例子:'XXXXXX', 'wXXXXXXXXXX'  db:数据库下的文件夹 例子:’Data’  (这里的数据库为想要提取出的因子的数据库)  
@@ -34,33 +34,33 @@ requirements packages are listed at requirements.md
 (23)	How_split 选择如何进行时间序列上的交叉验证的划分  0 代表用过即增加的方		式进行划分  1 代表固定的训练集和测试集的比率进行划分  例子：0  
 (24)	如果在(23)中选了1 这个才会影响到模型 代表固定比率划分的切分比率是： x单位的训练集 ：1单位的测试集  例子：2  
 
-二、因子建立，以及因子取出：Features_call_create.py  
+### 二、因子建立，以及因子取出：Features_call_create.py  
 (1)	因子的调出 call_features 可以在Navicat 里面查看因子的位置，若要用到新的数据库，可以在里面自定义mydb2等 详细原理和var_lib里的一样，需要有授权码和数据库的名称  写法可以参照上面，如果不熟悉可以在notebook上先尝试  
 (2)	因子的建立 build_features 如果是生成因子只用到当日的数据，就直接写就好了，不需要用到Tools window features等。 但如果你的数据是需要用到一段时间产生的，比如当日和过去的十日产生的数据，就需要用到Tools。只需要写入你需要用到的features的名称, 并写好对其处理的func，再加入你需要的rolling的长度window 就可以运行。  
   
-三、对于滤波器的参数调整：filter_var.py  滤波器在的位置：linear_packages.py  
+### 三、对于滤波器的参数调整：filter_var.py  滤波器在的位置：linear_packages.py  
 (1)	滤波器的选择在data_main.py的data_filter里的filter_func里  
 (2)	滤波器包含了：上下包络线(可以通过filter_var.py里的which来选择输出的是上包络线和下包络线)、sav_filter输出单行数据、inter_plot插值法会增大数据 输出单行数据，增大的倍数可以在  filter_lib.py里面调整、moving_avg 移动平均输出单行，参数lib可调、low_pass_filter低通滤波器 参数lib可调 输出单行数据、high_pass_filter高通滤波器 参数lib可调 输出单行数据、band_pass_filter通带滤波器 参数lib可调 输出单行数据、band_stop_filter阻带滤波器 参数lib可调 输出单行数据、gaussian_filter高斯滤波器 参数lib可调，支持单维以及二维输入输出，不支持多维，box_filter盒型滤波器 参数lib可调 支持单维以及二维输入输出，不支持多维、mean_filter平均滤波器 参数lib可调 支持单维以及二维输入输出，不支持多维、median_filter中位数滤波器 参数lib可调 支持任意维度输入以及输出、ewm_process半衰期加权滤波 参数不可调 支持任意维度输入输出  
 (3)	特殊滤波：EMD_filter EMD分解将一个波分解为多个，然后去掉前几个噪音项，得到更加纯净的真实波 参数lib可调整 仅支持单维输入以及输出、trans_EMD 使用EMD将波分解每一层波都会返回，参数不可调，单维输入多维输出（波不同维度不同）  
   
   
-模型训练(CNN_train、LSTM_train、ML_train):  
+## 模型训练(CNN_train、LSTM_train、ML_train):  
   
-一、CNN 总操作台 CNN_construction.py （需要模型架构和参数空间寻找能力）  
+### 一、CNN 总操作台 CNN_construction.py （需要模型架构和参数空间寻找能力）  
 (1)	space 为参数空间（更多选项可以参考 中的Parameter Expressions），hp.uniform为包含两边的正态分布 hp.uniformint为包含两边的正态分布，但只取整数 hp.choice为 在一个list里做选择。需要为字典的形式{名字:hp.uniform(名字,min,max)}   max_eval为尝试不同参数组合的最大的次数  Path为存储训练中模型的地方，可以通过修改filepath为随着不同参数就不同的名称，来保存每一次参数组合尝试的模型。  
 (2)	模型架构 只需改动f_NN1中的架构就好，需要调用space中的参数，就是用字典一般取出来就好 变量=params[自己取的名字]，需要传出一个损失函数作为调参基准，原框架用的是accuracy但是调参需要越小越好，所以加了负号  
 (3)	模型架构注意事项：此模型输入的有训练集、中间集、测试集。测试集的预测作为输出，训练集调整模型的权重，中间集调参数  
   
-二、ML 总操作台 ML_Construction.py （普通模型仅需要参数空间寻找能力、浅层神经网络模型则还需要模型架构能力）  
+### 二、ML 总操作台 ML_Construction.py （普通模型仅需要参数空间寻找能力、浅层神经网络模型则还需要模型架构能力）  
 (1) Space为参数空间，space 为参数空间，hp.uniform为包含两边的正态分布 hp.uniformint为包含两边的正态分布，但只取整数 hp.choice为 在一个list里做选择。需要为字典的形式{名字:hp.uniform(名字,min,max)}   max_eval为尝试不同参数组合的最大的次数。  
 (2) 包含了不同的模型，cl_model为分类模型的集合、reg_model为回归模型的集合。其中voting模型的分类和回归的是为了给模型加权的，可以尝试模型的集成  
 (3) 有两种训练方式可以自己选择，一种是针对于普通的模型，一种是针对于像xgboost、lightgbm和catboost这几类浅层神经网络的模型的，训练方式不同，架构也不同  
   
-日志撰写：  
+## 日志撰写：  
   
-请在训练的时候在var_lib下面输入自己的名字、改动的地方(文件名：比如:var_lib.py)  
+## 请在训练的时候在var_lib下面输入自己的名字、改动的地方(文件名：比如:var_lib.py)  
   
-每一次训练完都会自动上传，请不要重复训练相同的东西，除非报错  
-训练出来的表现可以在mongodb中查看  （文字在collection,文件在GridFS）  
+## 每一次训练完都会自动上传，请不要重复训练相同的东西，除非报错  
+## 训练出来的表现可以在mongodb中查看  （文字在collection,文件在GridFS）  
 
 
