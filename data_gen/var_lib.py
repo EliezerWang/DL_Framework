@@ -32,9 +32,9 @@ startdate = '20180601'  # 选择起始日期 结束日期默认是现在
 end_date = None  # 如果选择None则为最近的一天为enddate
 code = ['000300.SH']  # 选择你要的股票池（这里是沪深300）
 
-myclient = pymongo.MongoClient("mongodb://192.168.17.19:27017/")  # 选择资料库
-myclient.admin.authenticate('NXADMIN2', 'wY4SOOnSJYhUCmaH')  # 授权码
-db = myclient["NxData"]
+# myclient = pymongo.MongoClient("mongodb://192.168.17.XX:27017/")  # 选择资料库
+# myclient.admin.authenticate('XXXXX', 'XXXXXXXXXXX')  # 授权码
+# db = myclient["Data"]
 
 # 选择标签类型
 label_str = 1  # 1:close to close 2:open to open 3:open to close
