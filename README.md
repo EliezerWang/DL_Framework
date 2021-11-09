@@ -16,56 +16,56 @@ requirements packages are listed at requirements.txt and please ensure that mong
 (8)aft_sel_num Use the statistical model to filter the remaining number of useful factors. Example: 200 models statistical model collection, you can import model by yourself. Choose one of the models as the benchmark model for filtering. Example: models[1]  
 (9)times divide a piece of data into several points to run, reducing memory usage Example: 6  
 (10) path This mainly defines the storage location pre_split_path The output location of the final data all_data_path The data storage location before index merging is not performed  
-(11)shape_trans (If the number of factors is different, you need to change) The data shape you want to transform is as long as these three numbers are multiplied by the factor number multiplied by the number of days in the past. For example: there are 36 factors in the frame and the number of days in the past is 200. In the case of filtering, it was originally (36,200,1), after conversion, it can be (18,100,4) and multiplication is 7200 Example: (36, past_days, 1)
-(12) time_series_split splits the data into several pieces for cross-validation of the time series (training several times) Example: 12
-(13) Commission_rate transaction fee example 0.0012 single_max single ticket maximum position example 0.1
-(14) cl_or_reg classification or regression Regression selection 1 Classification can be divided into several categories (must be greater than or equal to 3) Example: 5 which_model selection model 0 represents CNN 1 represents LSTM 2 represents statistical model Example: 0
-(15)name Fill in your own name Example:'Zhang San'
-(16) save_client fill in the database where you want to save the parameters and results
-Example:'mongodb://localhost:27017/'
-(17) change_part Fill in the part that you modified during this modification. Example: ‘CNN_Construction’
-(18) Save_db fill in the specific table name where the data will be saved. The table name must be written in the name of the reference person (Ori_+person’s name) Example:’Ori_Wang’
-(19) change_part_path fill in the path name of the part that you changed
-Example: r'C:\Users\Admin\PycharmProjects\pythonProject1\CNN_train\CNN_Construction.py'
-(20) Path The storage path of the model in training (not the final optimal model)
-Example: r'C:\\Users\\Admin\\Desktop\\model'
-(21) Best_model_path The storage path of the best-performing model after the tuning is over
-Example: sys.path[0] + os.sep +'model.h5'
-(22) Which_loss_func fill in the loss function you want to adjust based on 0 represents the function based on the quasi-drop rate ((via_acc+train_acc)/(2*(1+abs(via_acc-train_acc)), mainly to improve accuracy At the same time reduce the gap between the intermediate set and the training set to prevent over-fitting or under-fitting) 1 means to use the function based on backtesting profit and Sharpe ratio (np.sign(year_profit)*year_profit*sharpe_ratio) Example: 0
-(23) How_split chooses how to divide the time series for cross-validation. 0 represents the division after use and increase. 1 represents the fixed ratio of the training set and the test set. Example: 0
-(24) If you choose 1 in (23), this will affect the model. The segmentation ratio representing the fixed ratio division is: x unit training set: 1 unit test set Example: 2
+(11)shape_trans (If the number of factors is different, you need to change) The data shape you want to transform is as long as these three numbers are multiplied by the factor number multiplied by the number of days in the past. For example: there are 36 factors in the frame and the number of days in the past is 200. In the case of filtering, it was originally (36,200,1), after conversion, it can be (18,100,4) and multiplication is 7200 Example: (36, past_days, 1)  
+(12) time_series_split splits the data into several pieces for cross-validation of the time series (training several times) Example: 12  
+(13) Commission_rate transaction fee example 0.0012 single_max single ticket maximum position example 0.1  
+(14) cl_or_reg classification or regression Regression selection 1 Classification can be divided into several categories (must be greater than or equal to 3) Example: 5 which_model selection model 0 represents CNN 1 represents LSTM 2 represents statistical model Example: 0  
+(15)name Fill in your own name Example:'Zhang San'  
+(16) save_client fill in the database where you want to save the parameters and results  
+Example:'mongodb://localhost:27017/'  
+(17) change_part Fill in the part that you modified during this modification. Example: ‘CNN_Construction’  
+(18) Save_db fill in the specific table name where the data will be saved. The table name must be written in the name of the reference person (Ori_+person’s name) Example:’Ori_Wang’  
+(19) change_part_path fill in the path name of the part that you changed  
+Example: r'C:\Users\Admin\PycharmProjects\pythonProject1\CNN_train\CNN_Construction.py'  
+(20) Path The storage path of the model in training (not the final optimal model)  
+Example: r'C:\\Users\\Admin\\Desktop\\model'  
+(21) Best_model_path The storage path of the best-performing model after the tuning is over  
+Example: sys.path[0] + os.sep +'model.h5'  
+(22) Which_loss_func fill in the loss function you want to adjust based on 0 represents the function based on the quasi-drop rate ((via_acc+train_acc)/(2*(1+abs(via_acc-train_acc)), mainly to improve accuracy At the same time reduce the gap between the intermediate set and the training set to prevent over-fitting or under-fitting) 1 means to use the function based on backtesting profit and Sharpe ratio (np.sign(year_profit)*year_profit*sharpe_ratio) Example: 0  
+(23) How_split chooses how to divide the time series for cross-validation. 0 represents the division after use and increase. 1 represents the fixed ratio of the training set and the test set. Example: 0  
+(24) If you choose 1 in (23), this will affect the model. The segmentation ratio representing the fixed ratio division is: x unit training set: 1 unit test set Example: 2  
 
-### 2. Factor creation and factor extraction: Features_call_create.py
-(1) The call_features of the factor can be viewed in Navicat. If you want to use a new database, you can customize the detailed principles of mydb2 in it. It is the same as in var_lib. You need to have the authorization code and the name of the database. Refer to the above, if you are not familiar with it, you can try it on the notebook first
-(2) The establishment of factors build_features If it is to generate factors that only use the data of the day, just write them directly, without using Tools window features and so on. But if your data needs to be generated over a period of time, such as data generated on the current day and the past ten days, you need to use Tools. You only need to write the name of the features you need, and write the func to be processed, and then add the length of the rolling window you need to run.
+### 2. Factor creation and factor extraction: Features_call_create.py  
+(1) The call_features of the factor can be viewed in Navicat. If you want to use a new database, you can customize the detailed principles of mydb2 in it. It is the same as in var_lib. You need to have the authorization code and the name of the database. Refer to the above, if you are not familiar with it, you can try it on the notebook first  
+(2) The establishment of factors build_features If it is to generate factors that only use the data of the day, just write them directly, without using Tools window features and so on. But if your data needs to be generated over a period of time, such as data generated on the current day and the past ten days, you need to use Tools. You only need to write the name of the features you need, and write the func to be processed, and then add the length of the rolling window you need to run.  
+    
+### Three. Adjust the parameters of the filter: filter_var.py The location of the filter: linear_packages.py  
+(1) The selection of the filter is in filter_func in data_filter of data_main.py  
+(2) The filter contains: upper and lower envelopes (you can select the output of the upper and lower envelopes through which in filter_var.py), sav_filter outputs single-line data, and inter_plot interpolation will increase the data output Single line data, the multiplier of increase can be adjusted in filter_lib.py, moving_avg moving average output single line, parameter lib adjustable, low_pass_filter low pass filter parameter lib adjustable output single line data, high_pass_filter high pass filter parameter lib adjustable output single line data , Band_pass_filter passband filter parameter lib adjustable output single line data, band_stop_filter stopband filter parameter lib adjustable output single line data, gaussian_filter Gaussian filter parameter lib adjustable, support single-dimensional and two-dimensional input and output, does not support multi-dimensional, box_filter Box filter parameter lib is adjustable Support single-dimensional and two-dimensional input and output, does not support multi-dimensional, mean_filter average filter parameter lib is adjustable Support single-dimensional and two-dimensional input and output, does not support multi-dimensional, median_filter median filter parameter lib Adjustable support arbitrary dimension input and output, ewm_process half-life weighted filter parameters are not adjustable, support arbitrary dimension input and output  
+(3) Special filtering: EMD_filter EMD decomposition decomposes a wave into multiple, and then removes the first few noise items to obtain a purer real wave. The parameters lib can be adjusted. Only single-dimensional input and output are supported. Trans_EMD uses EMD to decompose each wave. A layer of waves will return, the parameters are not adjustable, single-dimensional input and multi-dimensional output (waves have different dimensions)  
   
-### Three. Adjust the parameters of the filter: filter_var.py The location of the filter: linear_packages.py
-(1) The selection of the filter is in filter_func in data_filter of data_main.py
-(2) The filter contains: upper and lower envelopes (you can select the output of the upper and lower envelopes through which in filter_var.py), sav_filter outputs single-line data, and inter_plot interpolation will increase the data output Single line data, the multiplier of increase can be adjusted in filter_lib.py, moving_avg moving average output single line, parameter lib adjustable, low_pass_filter low pass filter parameter lib adjustable output single line data, high_pass_filter high pass filter parameter lib adjustable output single line data , Band_pass_filter passband filter parameter lib adjustable output single line data, band_stop_filter stopband filter parameter lib adjustable output single line data, gaussian_filter Gaussian filter parameter lib adjustable, support single-dimensional and two-dimensional input and output, does not support multi-dimensional, box_filter Box filter parameter lib is adjustable Support single-dimensional and two-dimensional input and output, does not support multi-dimensional, mean_filter average filter parameter lib is adjustable Support single-dimensional and two-dimensional input and output, does not support multi-dimensional, median_filter median filter parameter lib Adjustable support arbitrary dimension input and output, ewm_process half-life weighted filter parameters are not adjustable, support arbitrary dimension input and output
-(3) Special filtering: EMD_filter EMD decomposition decomposes a wave into multiple, and then removes the first few noise items to obtain a purer real wave. The parameters lib can be adjusted. Only single-dimensional input and output are supported. Trans_EMD uses EMD to decompose each wave. A layer of waves will return, the parameters are not adjustable, single-dimensional input and multi-dimensional output (waves have different dimensions)
   
+## Model training (CNN_train, LSTM_train, ML_train):  
   
-## Model training (CNN_train, LSTM_train, ML_train):
+### 1. CNN main console CNN_construction.py (requires model architecture and parameter space search capabilities)  
+(1) Space is the parameter space (for more options, please refer to Parameter Expressions in), hp.uniform is the normal distribution that includes both sides, hp.uniformint is the normal distribution that includes both sides, but only the integer hp.choice is in one Make a selection in the list. It needs to be in the form of a dictionary {name:hp.uniform(name,min,max)} max_eval is the maximum number of attempts of different parameter combinations. Path is the place where the model in training is stored. You can modify the filepath to be different with different parameters Name to save the model for each parameter combination attempt.  
+(2) The model architecture only needs to change the architecture in f_NN1, and the parameters in space need to be called, which is generally taken out with a dictionary. Variable = params[name taken by yourself], and a loss function needs to be passed as a reference for tuning , The original framework uses accuracy, but the smaller the parameter adjustment needs, the better, so the minus sign is added  
+(3) Precautions for model architecture: The input for this model includes training set, intermediate set, and test set. The prediction of the test set is used as the output, the training set adjusts the weight of the model, and the middle set adjusts the parameters  
+    
+### 2. ML main console ML_Construction.py (normal model only needs the ability to find parameter space, shallow neural network model also needs model architecture ability)  
+(1) Space is the parameter space, space is the parameter space, hp.uniform is the normal distribution containing both sides hp.uniformint is the normal distribution containing both sides, but only the integer hp.choice is selected in a list. It needs to be in the form of a dictionary {name:hp.uniform(name,min,max)} max_eval is the maximum number of attempts for different parameter combinations.  
+(2) Contains different models, cl_model is a collection of classification models, and reg_model is a collection of regression models. The classification and regression of the voting model are used to weight the model. You can try the integration of the model.  
+(3) There are two training methods you can choose by yourself, one is for ordinary models, and the other is for models of shallow neural networks like xgboost, lightgbm and catboost. The training methods are different and the architectures are also different.  
   
-### 1. CNN main console CNN_construction.py (requires model architecture and parameter space search capabilities)
-(1) Space is the parameter space (for more options, please refer to Parameter Expressions in), hp.uniform is the normal distribution that includes both sides, hp.uniformint is the normal distribution that includes both sides, but only the integer hp.choice is in one Make a selection in the list. It needs to be in the form of a dictionary {name:hp.uniform(name,min,max)} max_eval is the maximum number of attempts of different parameter combinations. Path is the place where the model in training is stored. You can modify the filepath to be different with different parameters Name to save the model for each parameter combination attempt.
-(2) The model architecture only needs to change the architecture in f_NN1, and the parameters in space need to be called, which is generally taken out with a dictionary. Variable = params[name taken by yourself], and a loss function needs to be passed as a reference for tuning , The original framework uses accuracy, but the smaller the parameter adjustment needs, the better, so the minus sign is added
-(3) Precautions for model architecture: The input for this model includes training set, intermediate set, and test set. The prediction of the test set is used as the output, the training set adjusts the weight of the model, and the middle set adjusts the parameters
+## Log writing:  
   
-### 2. ML main console ML_Construction.py (normal model only needs the ability to find parameter space, shallow neural network model also needs model architecture ability)
-(1) Space is the parameter space, space is the parameter space, hp.uniform is the normal distribution containing both sides hp.uniformint is the normal distribution containing both sides, but only the integer hp.choice is selected in a list. It needs to be in the form of a dictionary {name:hp.uniform(name,min,max)} max_eval is the maximum number of attempts for different parameter combinations.
-(2) Contains different models, cl_model is a collection of classification models, and reg_model is a collection of regression models. The classification and regression of the voting model are used to weight the model. You can try the integration of the model.
-(3) There are two training methods you can choose by yourself, one is for ordinary models, and the other is for models of shallow neural networks like xgboost, lightgbm and catboost. The training methods are different and the architectures are also different.
-  
-## Log writing:
-  
-## Please enter your name and changes under var_lib during training (file name: e.g. var_lib.py) 
-More about this source textSource text required for additional translation information
-Send feedback
-Side panels
-History
-Saved
-Contribute
+## Please enter your name and changes under var_lib during training (file name: e.g. var_lib.py)   
+More about this source textSource text required for additional translation information  
+Send feedback  
+Side panels  
+History  
+Saved  
+Contribute  
 
 
 
